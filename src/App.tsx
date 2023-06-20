@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import GlobalStyles from "./components/GlobalStyles";
 import { DefaultTheme } from "./components/Theme/DefaultTheme";
 import { Helmet } from "react-helmet";
@@ -23,73 +23,75 @@ function App() {
     "Include Numbers",
     "Include Symbols",
   ];
-  let [checkedNumbers, setCheckedNumbers] = useState(0);
 
-  const AllCharacters = [
-    [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F",
-      "G",
-      "H",
-      "I",
-      "J",
-      "K",
-      "L",
-      "M",
-      "N",
-      "O",
-      "P",
-      "Q",
-      "R",
-      "S",
-      "T",
-      "U",
-      "V",
-      "W",
-      "X",
-      "Y",
-      "Z",
-    ],
-    [
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "w",
-      "x",
-      "y",
-      "z",
-    ],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-    ["!", "@", "#", "$", "%", "&"],
+  const upperCase : string[] = [ 
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
   ];
+  const lowerCase :string[] =  [    
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
+  const numbers :number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  const symbols :string[] = ["!", "@", "#", "$", "%", "&"];
 
-  let [passwordCharacters, setPasswordCharacters] = useState<any[]>([]);
+  let [count, setCount] = useState(0); 
 
-  console.log(passwordCharacters);
-
+  const [upperCaseLetters, setUppercaseLetters] = useState<string[]>([]);
+  const [lowerCaseLetters, setLowercaseLetters] = useState<string[]>([]);
+  const [Numbers, setNumbers] = useState<number[]>([]);
+  const [Symbols, setSymbols] = useState<string[]>([]);
+  
+  let allCharacters= [...upperCaseLetters, ...lowerCaseLetters, ...Numbers, ...Symbols];
+  console.log(allCharacters);
 
 
   return (
@@ -130,19 +132,42 @@ function App() {
               <input
                 type="checkbox"
                 key={index}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    checkedNumbers++;
-                    passwordCharacters.push(AllCharacters[index]);
-                  } else {
-                    checkedNumbers--;
-                    passwordCharacters.splice(index, 1);
 
+                onChange={(e) => {
+                  if(checkItem==="Include Uppercase Letters"){
+                    if (e.target.checked) {
+                      setUppercaseLetters(upperCase);
+                      count++
+                    } else {
+                      setUppercaseLetters([]);
+                      count--
+                    }
+                  } else if(checkItem==="Include Lowercase Letters"){
+                    if (e.target.checked) {
+                      setLowercaseLetters(lowerCase);
+                      count++
+                    } else {
+                      setLowercaseLetters([]);
+                      count--
+                    }
+                  } else if(checkItem==="Include Numbers"){
+                    if (e.target.checked) {
+                      setNumbers(numbers);
+                      count++
+                    } else {
+                      setNumbers([]);
+                      count--
+                    }
+                  } else if(checkItem==="Include Symbols"){
+                    if (e.target.checked) {
+                      setSymbols(symbols);
+                      count++
+                    } else {
+                      setSymbols([]);
+                      count--
+                    }
                   }
-                  //console.log(index);
-                  //setCheckedNumbers(checkedNumbers);
-                  //setPasswordCharacters(passwordCharacters);
-                  console.log(checkItem);
+                  setCount(count);
                 }}
               />
               <span>{checkItem}</span>
