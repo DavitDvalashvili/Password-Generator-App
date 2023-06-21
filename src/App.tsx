@@ -1,8 +1,13 @@
+import Main from "./components/Main";
+
+
+
 import styled from "styled-components";
 import GlobalStyles from "./components/GlobalStyles";
 import { DefaultTheme } from "./components/Theme/DefaultTheme";
 import { Helmet } from "react-helmet";
 import { useEffect, useState } from "react";
+import arrow from "./assets/images/icon-arrow-right.svg"
 
 import iconCopy from "./assets/images/icon-copy.svg";
 
@@ -93,6 +98,26 @@ function App() {
   let allCharacters= [...upperCaseLetters, ...lowerCaseLetters, ...Numbers, ...Symbols];
   console.log(allCharacters);
 
+  let [password, setPassword] = useState("");
+
+  const [strength, setStrength] = useState<string>("");
+
+  function measureStrength(){
+    if(rangeValue > 10 || count===4){
+      setStrength("strong")
+    } else if(count===3){
+      setStrength("Medium")
+    } else if(count===2){
+      setStrength("week")
+    } else if(count===1) {
+      setStrength("Too weak!")
+    }
+    console.log(strength);
+  }
+
+
+  
+
 
   return (
     <AppContainer>
@@ -105,11 +130,11 @@ function App() {
       <GlobalStyles />
       <h1>Password Generator</h1>
       <PasswordBox className="this">
-        <input type="text" name="password" readOnly />
+        <input type="text" name="password" readOnly value={password} />
         <img src={iconCopy} alt="iconCopy" />
       </PasswordBox>
 
-      <div className="main">
+      <div>
         <RangeBox>
           <div className="textbox">
             <span>Character Length</span>
@@ -168,12 +193,45 @@ function App() {
                     }
                   }
                   setCount(count);
+                  measureStrength();
                 }}
               />
               <span>{checkItem}</span>
             </div>
           ))}
         </CheckBoxes>
+        <StrengthBox>
+          <span>strength</span>
+          <span>medium</span>
+          <div className="indicators">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </StrengthBox>
+        <GenerateBtn
+        onClick={() => {
+          if(count) {
+            let ranElements =""
+            for(let i=0; i<rangeValue; i++) {
+              var ranElement =  allCharacters[Math.floor(Math.random() * allCharacters.length)];
+              ranElements+=ranElement;
+            }
+           setPassword(ranElements);
+           measureStrength();
+          }
+          
+        }}
+
+
+
+
+
+        >
+          <span>GENERATE</span>
+          <img src={arrow} alt="arrow" />
+        </GenerateBtn>
       </div>
     </AppContainer>
   );
@@ -233,3 +291,28 @@ const CheckBoxes = styled.div`
   gap: 16px;
   background-color: orange;
 `;
+
+const StrengthBox = styled.div`
+  background-color: red;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    div {
+      width: 10px;
+      height: 28px;
+      background-color: orange;
+    }
+  }
+`
+const GenerateBtn = styled.button`
+  background-color: yellowgreen;
+  width: 100%;
+  height: 56px;
+`
