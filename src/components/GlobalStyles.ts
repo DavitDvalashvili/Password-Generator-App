@@ -13,6 +13,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    ::-webkit-scrollbar {
+    display: none;
+}
 }
 `;
 

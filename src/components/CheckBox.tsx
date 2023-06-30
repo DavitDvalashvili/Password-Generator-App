@@ -1,5 +1,4 @@
-import styled from "styled-components";
-//import { DefaultTheme } from "./Theme/DefaultTheme";
+import { CheckContainer } from "./Styles";
 
 interface CheckboxPropsType {
   setUppercaseLetters: React.Dispatch<React.SetStateAction<string[]>>;
@@ -10,6 +9,7 @@ interface CheckboxPropsType {
   count : number;
   measureStrength: () => void;
   setStrength: React.Dispatch<React.SetStateAction<string>>;
+  
 }
 
 const CheckBox = (props : CheckboxPropsType) => {
@@ -84,10 +84,12 @@ const CheckBox = (props : CheckboxPropsType) => {
   return (
     <CheckContainer>
       {checkBoxNames.map((checkItem, index) => (
-        <div key={index}>
+        <div key={index} className="checkItems">
           <input
             type="checkbox"
             key={index}
+            className="checkbox"
+            id={index.toString()}
             onChange={(e) => {
               if (checkItem === "Include Uppercase Letters") {
                 if (e.target.checked) {
@@ -124,11 +126,13 @@ const CheckBox = (props : CheckboxPropsType) => {
               }
               props.setCount(newCount);
               props.measureStrength();
-              props.setStrength("")
+              props.setStrength("");
+              
             }}
           />
-          <span>{checkItem}</span>
+          <label htmlFor={index.toString()}>{checkItem}</label>
         </div>
+        
       ))}
     </CheckContainer>
   );
@@ -136,9 +140,3 @@ const CheckBox = (props : CheckboxPropsType) => {
 
 export default CheckBox;
 
-const CheckContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background-color: orange;
-`;

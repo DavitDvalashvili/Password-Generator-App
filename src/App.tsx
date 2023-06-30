@@ -1,21 +1,20 @@
 import { Helmet } from "react-helmet";
 import GlobalStyles from "./components/GlobalStyles";
-import iconCopy from "./assets/images/icon-copy.svg";
 import Main from "./components/Main";
 import { useState } from "react";
-import { PasswordBox } from "./components/styles/Styles";
-import { AppContainer } from "./components/styles/Styles";
-
+import { PasswordBox } from "./components/Styles";
+import { AppContainer } from "./components/Styles";
 
 function App() {
   let [password, setPassword] = useState("");
+  let [copied, setCopied] = useState(false);
 
   const handleImageClick = () => {
     if (password) {
       navigator.clipboard.writeText(password);
+      setCopied(true);
     }
   };
-
 
   return (
     <AppContainer>
@@ -29,15 +28,14 @@ function App() {
       <h1>Password Generator</h1>
       <PasswordBox>
         <input type="text" name="password" readOnly value={password} />
-        <img src={iconCopy} alt="iconCopy" onClick={handleImageClick}/>
+        <div className="copyBox">
+          {copied ? <span>copied</span> : ""}
+          <div className="imageBox" onClick={handleImageClick}></div>
+        </div>
       </PasswordBox>
-      <Main setPassword={setPassword}/>
+      <Main setPassword={setPassword} setCopied={setCopied} />
     </AppContainer>
   );
 }
 
 export default App;
-
-
-
-
